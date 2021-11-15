@@ -11,7 +11,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -39,11 +38,36 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  Future<String> fetchPost() async {
+    final response =
+        await http.get(Uri.parse("http://localhost:8000/v1/hello"));
+
+    if (response.statusCode == 200) {
+      // If the call to the server was successful, parse the JSON
+      return response.body;
+      // print("Status OK");
+    } else {
+      // If that call was not successful, throw an error.
+      throw Exception('Failed to load post');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: FutureBuilder<String>(
+          future: fetchPost(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Text(snapshot.data ?? "");
+            } else if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            }
+            // To show a spinner while loading
+            return const CircularProgressIndicator();
+          },
+        ),
       ),
       body: Center(
         child: Column(
