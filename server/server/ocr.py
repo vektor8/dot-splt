@@ -1,7 +1,6 @@
 import pytesseract as tess
 from PIL import Image
 import re
-from models.product import Product
 
 def img_to_bill(img_path: str):
     img = Image.open(img_path)
