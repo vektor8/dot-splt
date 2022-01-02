@@ -19,5 +19,6 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('v1/hello', views.HelloWorldView, name='hello'), # GET API
+    path('v1/hello', views.HelloWorldView, name='hello'),
+    path('v1/upload',views.UploadBill, name='uplaod') # GET API
 ]
