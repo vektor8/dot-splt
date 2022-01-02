@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:split/src/theme/colors.dart';
 
 abstract class ImageFinder {
   static const _imageFolder = 'assets/images/';
@@ -20,6 +21,6 @@ abstract class ImageFinder {
         key: const Key('infoIcon'),
         height: _statusIconSize,
         width: _statusIconSize,
-        color: Colors.blue,
+        color: CustomColor.white(),
       );
 }

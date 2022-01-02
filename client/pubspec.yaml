@@ -52,4 +52,18 @@ flutter:
     - assets/images/
 #    - assets/strings/values-en/
 
+  fonts:
+    - family: GrundfosTheSansV2Regular
+      fonts:
+        - asset: fonts/GrundfosTheSansV2Regular.ttf
+    - family: GrundfosTheSansV2SemiLight
+      fonts:
+        - asset: fonts/GrundfosTheSansV2SemiLight.ttf
+    - family: GrundfosTheSansV2Bold
+      fonts:
+        - asset: fonts/GrundfosTheSansV2Bold.ttf
+    - family: GrundfosTheSansV2ExtraBold
+      fonts:
+        - asset: fonts/GrundfosTheSansV2ExtraBold.ttf
+
 
