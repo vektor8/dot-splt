@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from server.db import create_new_bill, create_new_user
 import json
 from server.ocr import img_to_bill
-from server.models import Bill, Product, User
+from server.models import Bill, Payments, Product, User
 from server.serializers import ProductSerializer
 
 
@@ -19,11 +19,11 @@ def HelloWorldView(request):
 
 @api_view(http_method_names=['POST'])
 def authenticate(request): 
-    print(request.POST)
-    user = User.objects.filter(name=request.POST['name'])
+    params = json.loads(request.body.decode())
+    user = User.objects.filter(name=params['name'])
     id = -1
     if len(user) == 0:
-        id = create_new_user(request.POST['name'])
+        id = create_new_user(params['name'])
     else:
         id = user[0].id
     response = {"user_id":id}
@@ -60,5 +60,15 @@ def get_bill(request):
 
 @api_view(http_method_names=['POST'])
 def edit_bill(request):
+    user = User.objects.get(pk=request.POST("userid"))
     bill = Bill.objects.get(pk=request.POST['billid'])
-    db_products = Product.objects.filter(bill_id=bill)
+    products = request.POST['products']
+    for p in products:
+        product = Product(pk=p['id'])
+        product.update(product.quatity - p['quantity'])
+        product.save()
+        payment = Payments(user_id=user, product_id=product, quantity=p["quantity"])
+        payment.save()
+    return Response(get_products_response(request.POST['billid']))
+
+
