@@ -1,16 +1,18 @@
 from django.http import HttpResponse
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import render
+from django.core.files.storage import default_storage
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from server.db import create_new_user
+from server.db import create_new_bill, create_new_user
 import json
+from server.ocr import img_to_bill
 
 @api_view(http_method_names=['GET'])
 @csrf_exempt ## To exempt from default requirement for CSRF tokens to use postman
 def HelloWorldView(request):
     return HttpResponse("Hello World!")
+
 
 @api_view(http_method_names=['POST'])
 def new_user(request):
@@ -21,7 +23,18 @@ def new_user(request):
     response['user_id'] = id
     return Response(json.dumps(response))
 
+
 @api_view(http_method_names=['POST'])
 def upload_bill(request):
-    render
-
+    decoded = request.POST
+    file = request.FILES['bill']
+    file_name = default_storage.save(file.name, file)
+    file = default_storage.open(file_name)
+    file_url = default_storage.url(file_name)
+    import os
+    from server.settings import BASE_DIR
+    file_path = os.path.join(BASE_DIR, file_url[1:])
+    products = img_to_bill(file_path)
+    create_new_bill(decoded['author'], products)
+    return Response(products)
+    

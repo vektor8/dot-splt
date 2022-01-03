@@ -23,3 +23,9 @@ urlpatterns = [
     path('v1/newuser', views.new_user, name='new_user'),
     path('v1/upload',views.upload_bill, name='upload') # GET API
 ]
+
+from django.conf import settings
+from django.conf.urls.static import static
+if settings.DEBUG:
+        urlpatterns += static(settings.MEDIA_URL,
+                              document_root=settings.MEDIA_ROOT)
