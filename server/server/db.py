@@ -11,4 +11,5 @@ def create_new_bill(author_id, products):
     for p in products:
         new_product = Product(name=p['name'], price=p['price'], quantity=p['quantity'], is_countable=p['is_countable'], bill_id=bill)
         new_product.save()
+    return bill.id
         
