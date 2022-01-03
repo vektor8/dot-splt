@@ -1,9 +1,9 @@
-import 'package:http/http.dart';
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 
 class NetworkWrapper {
-  NetworkWrapper(this._client);
-
-  final Client _client;
+  NetworkWrapper();
 
   //TODO define hostname
   static const String hostName = '';
@@ -11,11 +11,20 @@ class NetworkWrapper {
   //TODO create authorization header
   final Map<String, String>? headers = {};
 
-  Future<Response> get(String path, {Map<String, dynamic>? queryParameters}) {
+  static Future<http.Response> get(String path,
+      {Map<String, dynamic>? queryParameters}) {
     //TODO verify JWT token before call
-    return _client.get(
+    return http.get(
       Uri.http(hostName, path, queryParameters),
-      headers: headers,
+    );
+  }
+
+  static Future<http.Response> post(String path, Map<String, dynamic> body,
+      {Map<String, dynamic>? queryParameters}) {
+    //TODO verify JWT token before call
+    return http.post(
+      Uri.http(hostName, path, queryParameters),
+      body: jsonEncode(body),
     );
   }
 }
