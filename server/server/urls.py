@@ -21,7 +21,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('v1/hello', views.HelloWorldView, name='hello'),
     path('v1/newuser', views.new_user, name='new_user'),
-    path('v1/upload',views.upload_bill, name='upload') # GET API
+    path('v1/upload',views.upload_bill, name='upload'),
+    path('v1/getbill', views.get_bill, name='get_bill')
 ]
 
 from django.conf import settings
