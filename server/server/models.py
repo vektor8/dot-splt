@@ -9,10 +9,15 @@ class Bill(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
-    price = models.FloatField()
     quantity = models.FloatField() 
     is_countable = models.BooleanField()
     bill_id = models.ForeignKey(Bill, on_delete=models.RESTRICT)
+
+class FixedProduct(Product):
+    price = models.IntegerField()
+
+class VariableProduct(Product):
+    price = models.FloatField()
 
 class Payments(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.RESTRICT)
