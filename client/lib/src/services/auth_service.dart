@@ -16,9 +16,13 @@ class AuthService {
 
   Future<int> login(String name) async {
     // obtain shared preferences
-    final response = await NetworkWrapper.get('/v1/authenticate');
+    Map<String, dynamic> loginBody = {};
+    loginBody['name'] = name;
+    final response = await NetworkWrapper.post('/v1/authenticate', loginBody);
+    final jsonResponse = jsonDecode(response.body);
+    print(jsonResponse);
     // Simulate a future for response after 2 second.
-    return jsonDecode(response.body);
+    return jsonResponse['user_id'];
   }
 
   // Logout
