@@ -7,6 +7,8 @@ from rest_framework.response import Response
 from server.db import create_new_bill, create_new_user
 import json
 from server.ocr import img_to_bill
+from server.models import Bill, Product
+from server.serializers import ProductSerializer
 
 @api_view(http_method_names=['GET'])
 @csrf_exempt ## To exempt from default requirement for CSRF tokens to use postman
@@ -37,4 +39,14 @@ def upload_bill(request):
     products = img_to_bill(file_path)
     create_new_bill(decoded['author'], products)
     return Response(products)
+
+
+@api_view(http_method_names=['GET'])
+def get_bill(request):
+    bill = Bill.objects.get(pk=request.GET['billid'])
+    products = Product.objects.filter(bill_id=bill)
+    products = [ProductSerializer(p).data for p in products]
+    return Response(products)
+
+
     
