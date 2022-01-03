@@ -7,6 +7,7 @@ class BillSerializer(serializers.Serializer):
     author = UserSerializer()
 
 class ProductSerializer(serializers.Serializer):
+    id = serializers.ReadOnlyField()
     name = serializers.CharField(max_length=100)
     price = serializers.FloatField()
     quantity = serializers.FloatField() 
