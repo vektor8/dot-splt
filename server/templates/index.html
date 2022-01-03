@@ -8,16 +8,29 @@
 </head>
 <body>
     <h1 id='app'>{{text}}</h1>
+    <input id='input' type="text">
+    <button id='submit'>submit</button>
 
     <script>
 
-        var socket = new WebSocket('ws://localhost:8000/ws/dummy_url/');
+        var socket = new WebSocket('ws://localhost:8000/ws/bill-room/');
         
         socket.onmessage = function(event){
-            var data = JSON.parse(event.data);
-            console.log(data);
-            document.querySelector('#app').innerText = data.message;
+            var data = event.data;
+            console.log(event);
+            document.querySelector('#app').innerText = data;
         }
+
+        document.querySelector('#submit').onclick = function(e) {
+            const messageInputDom = document.querySelector('#input');
+            const message = messageInputDom.value;
+            socket.send(JSON.stringify({
+                'message': message
+            }));
+            messageInputDom.value = '';
+        };
+
+
     
     </script>
 </body>
