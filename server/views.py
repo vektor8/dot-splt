@@ -35,13 +35,7 @@ def authenticate(request):
 def upload_bill(request):
     decoded = request.POST
     file = request.FILES['bill']
-    file_name = default_storage.save(file.name, file)
-    file = default_storage.open(file_name)
-    file_url = default_storage.url(file_name)
-    import os
-    from server.settings import BASE_DIR
-    file_path = os.path.join(BASE_DIR, file_url[1:])
-    products = img_to_bill(file_path)
+    products = img_to_bill(file)
     bill_id = create_new_bill(decoded['author'], products)
     return Response(get_products_response(bill_id))
 

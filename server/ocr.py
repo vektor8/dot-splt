@@ -1,18 +1,19 @@
+from io import BytesIO
 import pytesseract as tess
 from PIL import Image
 import re
 
-def img_to_text(img_path: str):
-    img = Image.open(img_path)
+def img_to_text(img: str):
+    img = Image.open(img)
     text = tess.image_to_string(img)
     text = text[text.find('Lei\n') + 4:text.find("\nSUBTOTAL")]
     text = text.split("\n")
     return text
 
-def img_to_bill(img_path: str):
+def img_to_bill(img: str):
     products = []
     i = 0
-    text = img_to_text(img_path)
+    text = img_to_text(img)
     while i < len(text):
         line = text[i]
         line = line.replace(',', '.')
