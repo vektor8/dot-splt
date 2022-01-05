@@ -50,7 +50,7 @@ def get_products_response(billid):
 
 @api_view(http_method_names=['GET'])
 def get_bill(request):
-    return Response(get_products_response(json.loads(request.body.decode())['bill_id']))
+    return Response(get_products_response(request.GET['bill_id']))
 
 
 @api_view(http_method_names=['POST'])
