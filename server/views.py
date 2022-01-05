@@ -41,7 +41,7 @@ def upload_bill(request):
 
 
 def get_products_response(billid):
-    bill = Bill.objects.get(pk=billid)
+    bill = Bill.objects.get(some_id=billid)
     products = Product.objects.filter(bill_id=bill)
     products = [ProductSerializer(p).data for p in products]
     response = {"bill_id": billid, "products": products}
@@ -58,7 +58,7 @@ def edit_bill(request):
     params = json.loads(request.body.decode())
     user = User.objects.get(pk=params['user_id'])
     print(UserSerializer(user).data)
-    bill = Bill.objects.get(pk=params['bill_id'])
+    bill = Bill.objects.get(some_id=params['bill_id'])
     print(BillSerializer(bill).data)
     products = params['products']
     for p in products:

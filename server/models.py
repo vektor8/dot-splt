@@ -7,9 +7,8 @@ class User(models.Model):
 
 
 class Bill(models.Model):
-    id = models.CharField(
-        primary_key=True, default=uuid.uuid4, editable=False, max_length=36)
     author = models.ForeignKey(User, on_delete=models.RESTRICT)
+    some_id = models.CharField(max_length=10)
 
 
 class Product(models.Model):
