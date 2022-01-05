@@ -5,7 +5,7 @@ class User(models.Model):
     name = models.CharField(max_length=50)
 
 class Bill(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, max_length=36)
     author = models.ForeignKey(User, on_delete=models.RESTRICT)
 
 class Product(models.Model):
