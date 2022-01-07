@@ -61,12 +61,16 @@ def edit_bill(request):
     bill = Bill.objects.get(some_id=params['bill_id'])
     print(BillSerializer(bill).data)
     products = params['products']
+    total = 0
     for p in products:
+        total += p['price'] * p['quantity']
         current = Product.objects.get(pk=p['id'])
         current.quantity = current.quantity - p['quantity']
         current.save()
         payment = Payments(user_id=user, product_id=current, quantity=p["quantity"])
         payment.save()
-    return Response(get_products_response(params['bill_id']))
+    response = get_products_response(params['bill_id'])
+    response['total_cost'] = total
+    return Response(response)
 
 
